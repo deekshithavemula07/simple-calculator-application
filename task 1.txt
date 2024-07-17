@@ -1,0 +1,92 @@
+import tkinter as tk
+from tkinter import messagebox
+import math
+
+# Create the main window
+root = tk.Tk()
+root.title("Simple Calculator")
+
+# Entry widget to display the input and result
+entry = tk.Entry(root, width=40, borderwidth=5)
+entry.grid(row=0, column=0, columnspan=4)
+
+# Button click function
+def button_click(number):
+    current = entry.get()
+    entry.delete(0, tk.END)
+    entry.insert(0, current + str(number))
+
+# Clear function
+def button_clear():
+    entry.delete(0, tk.END)
+
+# Equal function
+def button_equal():
+    try:
+        result = str(eval(entry.get()))
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except ZeroDivisionError:
+        messagebox.showerror("Error", "Division by zero is not allowed")
+    except Exception as e:
+        messagebox.showerror("Error", "Invalid Input")
+
+# Square root function
+def button_sqrt():
+    try:
+        number = float(entry.get())
+        result = str(math.sqrt(number))
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except ValueError:
+        messagebox.showerror("Error", "Invalid Input for Square Root")
+    except Exception as e:
+        messagebox.showerror("Error", "Invalid Input")
+
+# Exponentiation function
+def button_exp():
+    try:
+        base, exp = map(float, entry.get().split('^'))
+        result = str(base ** exp)
+        entry.delete(0, tk.END)
+        entry.insert(0, result)
+    except Exception as e:
+        messagebox.showerror("Error", "Invalid Input for Exponentiation")
+
+# Creating the buttons
+button_1 = tk.Button(root, text="1", padx=20, pady=20, command=lambda: button_click(1))
+button_2 = tk.Button(root, text="2", padx=20, pady=20, command=lambda: button_click(2))
+button_3 = tk.Button(root, text="3", padx=20, pady=20, command=lambda: button_click(3))
+button_4 = tk.Button(root, text="4", padx=20, pady=20, command=lambda: button_click(4))
+button_5 = tk.Button(root, text="5", padx=20, pady=20, command=lambda: button_click(5))
+button_6 = tk.Button(root, text="6", padx=20, pady=20, command=lambda: button_click(6))
+button_7 = tk.Button(root, text="7", padx=20, pady=20, command=lambda: button_click(7))
+button_8 = tk.Button(root, text="8", padx=20, pady=20, command=lambda: button_click(8))
+button_9 = tk.Button(root, text="9", padx=20, pady=20, command=lambda: button_click(9))
+button_0 = tk.Button(root, text="0", padx=20, pady=20, command=lambda: button_click(0))
+
+button_add = tk.Button(root, text="+", padx=20, pady=20, command=lambda: button_click('+'))
+button_subtract = tk.Button(root, text="-", padx=21, pady=20, command=lambda: button_click('-'))
+button_multiply = tk.Button(root, text="*", padx=20, pady=20, command=lambda: button_click('*'))
+button_divide = tk.Button(root, text="/", padx=20, pady=20, command=lambda: button_click('/'))
+
+button_clear = tk.Button(root, text="C", padx=20, pady=20, command=button_clear)
+button_equal = tk.Button(root, text="=", padx=20, pady=20, command=button_equal)
+button_sqrt = tk.Button(root, text="√", padx=20, pady=20, command=button_sqrt)
+button_exp = tk.Button(root, text="^", padx=20, pady=20, command=lambda: button_click('^'))
+
+# Placing the buttons on the grid
+buttons = [
+    [button_7, button_8, button_9, button_divide],
+    [button_4, button_5, button_6, button_multiply],
+    [button_1, button_2, button_3, button_subtract],
+    [button_0, button_clear, button_equal, button_add],
+    [button_sqrt, button_exp]
+]
+
+for i, row in enumerate(buttons):
+    for j, button in enumerate(row):
+        button.grid(row=i+1, column=j)
+
+# Run the main loop
+root.mainloop()
